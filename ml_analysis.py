@@ -40,6 +40,7 @@ def plots(param,typeg):
         df = pd.read_table('data/parametros_hu_%s.txt' %param['gal_num'][i], delim_whitespace = True)
         df.columns = ['Pop','Raio_medio','std_R','I1','I2','I3','I4','I5','I6','I7',
                       'a','b','f=a+b/2','tetha','Excent','flong','sym','Conc']
+        df3 = param['gal_num'][i]
         frames = [df2,df]
         df2 = pd.concat(frames)
         #df7 = df2.ix[df2['Pop'] == 2]
