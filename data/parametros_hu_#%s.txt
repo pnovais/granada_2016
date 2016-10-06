@@ -1,0 +1,1 @@
+#Populacao Rm/re   std I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc
