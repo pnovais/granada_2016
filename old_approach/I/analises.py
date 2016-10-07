@@ -71,10 +71,9 @@ graficos(dfs1,'early')
 graficos(dfs2,'late')
 graficos(dfs3,'all')
 
-ax = dfs1.plot(kind='scatter', x='sym',y='Conc', color='blue',label='um')
-dfs2.plot(kind='scatter', x='sym',y='Conc', color='red',label='dois')
-dfs3.plot(kind='scatter', x='sym',y='Conc', color='green',label='all', s=4)
-
+ax = dfs1.plot(kind='scatter', x='I1',y='I2', color='blue',label='um')
+dfs2.plot(kind='scatter', x='I1',y='I2', color='red',label='dois',ax=ax)
+dfs3.plot(kind='scatter', x='sym',y='Conc', color='green',label='all', s=4,ax=ax)
 
 
 
