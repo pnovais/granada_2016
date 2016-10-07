@@ -6,7 +6,7 @@ Versao 0.0
 
 ------------------------
 Versao 0.1
-Com correlacao entre os parametros 
+Com correlacao entre os parametros
 
 """
 
