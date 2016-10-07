@@ -43,7 +43,7 @@ def get_image(f_sdss):
 
 #abrindo a imagem fits
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-galaxies = pd.read_csv('data/califa_group1.csv')
+galaxies = pd.read_csv('data/califa_group3.csv')
 
 df2 = pd.DataFrame()
 for i_gal in range(len(galaxies)):
@@ -65,10 +65,9 @@ for i_gal in range(len(galaxies)):
     frames = [df2,df]
     df2 = pd.concat(frames)
 
-print(df2['age'].min())
-print(df2['age'].max())
-print(df['age'].min())
-print(df['age'].max())
+#print(df2['age'].min())
+#print(df2['age'].max())
+print(df2.describe())
 
 
 fim = time.time()
