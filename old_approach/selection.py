@@ -14,7 +14,7 @@ ini=time.time()
 
 #df = dfs.ix[:,('name', 'id', 'ra', 'dec')]
 
-dfs = pd.read_csv('data/califa_master_list_rgb_2012.txt')
+dfs = pd.read_csv('califa_master_list_rgb_2012.txt')
 #dfs.columns = ['name', 'id', 'rah','ram','ras', 'decD', 'decM', 'decs', 'v500','v1200', 'comb', 'ned', 'link']
 
 df = dfs.ix[:,('#CALIFA_ID','ned_name','ra','dec','Mr','u-r','objID','fiberMag_r','petroMag_u','petroMag_g','petroMag_r','petroMag_i','petroMag_z','petroRad_r','petroR50_r','petroR90_r','z','re')]
@@ -22,7 +22,7 @@ df = dfs.ix[:,('#CALIFA_ID','ned_name','ra','dec','Mr','u-r','objID','fiberMag_r
 df2 = pd.read_table('Paty_at_flux__yx/mapas.txt', delim_whitespace = True)
 df2.columns = ['at-flux', 'gal_num']
 
-dfm = pd.read_table('data/morphological_types_califa.txt', delim_whitespace = True)
+dfm = pd.read_table('morphological_types_califa.txt', delim_whitespace = True)
 dfm.columns = ['index', 'gal_num', 'type']
 
 n=0
@@ -38,15 +38,15 @@ for i in range(len(df2)):
             #print(n)
 
 
-df2.to_csv('data/califa_all_gal_properts.csv')
+df2.to_csv('califa_gal_properts.csv')
 
 dfg1 = df2.ix[(df2['type_m'] <=0)]
 dfg2 = df2.ix[(df2['type_m'] > 0) & (df2['type_m'] <= 3)]
 dfg3 = df2.ix[(df2['type_m'] > 3)]
 
-dfg1.to_csv('data/califa_group1.csv')
-dfg2.to_csv('data/califa_group2.csv')
-dfg3.to_csv('data/califa_group3.csv')
+dfg1.to_csv('califa_group1.csv')
+df3.to_csv('califa_group2.csv')
+df4.to_csv('califa_group3.csv')
 
 
 
