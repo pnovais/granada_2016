@@ -45,12 +45,12 @@ def get_image(f_sdss):
 
 #abrindo a imagem fits
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-galaxies = pd.read_table('Paty_at_flux__yx/mapas.txt', delim_whitespace = True)
-galaxies.columns = ['at_flux', 'gal_num']
+galaxies = pd.read_csv('data/califa_group2.csv')
+#galaxies.columns = ['at_flux', 'gal_num']
 colunas = ('x','y','age')
 
 for i_gal in range(len(galaxies)):
-    image_age = fits.open('Paty_at_flux__yx/%s_%s.fits' %(galaxies['at_flux'][i_gal],
+    image_age = fits.open('Paty_at_flux__yx/%s_%s.fits' %(galaxies['at-flux'][i_gal],
                                                           galaxies['gal_num'][i_gal]))
     #image_age = fits.open('at_flux__yx_K0127_original.fits')
     img = get_image(image_age)

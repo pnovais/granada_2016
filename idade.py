@@ -43,7 +43,7 @@ def get_image(f_sdss):
 
 #abrindo a imagem fits
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-galaxies = pd.read_csv('data/califa_group3.csv')
+galaxies = pd.read_csv('data/califa_group3fm.csv')
 
 df2 = pd.DataFrame()
 for i_gal in range(len(galaxies)):
