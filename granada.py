@@ -45,7 +45,7 @@ def get_image(f_sdss):
 
 #abrindo a imagem fits
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-galaxies = pd.read_csv('data/califa_group1.csv')
+galaxies = pd.read_csv('data/califa_group3.csv')
 #galaxies.columns = ['at_flux', 'gal_num']
 colunas = ('x','y','age')
 
@@ -85,6 +85,11 @@ for i_gal in range(len(galaxies)):
     #dividindo as populacoes
     compr = len(df2)
 
+    pop1 = df2.ix[:(compr/4),:]
+    pop2 = df2.ix[(compr/4)+1:(compr/2),:]
+    pop3 = df2.ix[(compr/2)+1:(3*(compr/4)),:]
+    pop4 = df2.ix[(3*compr/4)+1:compr,:]
+
     '''
     delta = (df2['age'].max() - df2['age'].min())/4
     pop1 = df2.ix[df2.age < df2['age'].min()+delta]
@@ -92,12 +97,6 @@ for i_gal in range(len(galaxies)):
     pop3 = df2.ix[(df2.age > df2['age'].min()+2*delta) & (df2.age < df2['age'].min()+3*delta)]
     pop4 = df2.ix[df2.age > df2['age'].min()+3*delta]
     '''
-
-    pop1 = df2.ix[:(compr/4),:]
-    pop2 = df2.ix[(compr/4)+1:(compr/2),:]
-    pop3 = df2.ix[(compr/2)+1:(3*(compr/4)),:]
-    pop4 = df2.ix[(3*compr/4)+1:compr,:]
-
 
     #plotando as populacoes
     f, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, sharex='col', sharey='row')
@@ -140,19 +139,22 @@ for i_gal in range(len(galaxies)):
     cx = int(m10/len(df2))
     cy = int(m01/len(df2))
     re = np.sqrt(len(df2)/3.14)
+    tm_total = df2['age'].mean()
+    tm_total_std = df2['age'].std()
 
     print('Centroides (Cx,Cy) da imagem: (%d,%d)' %(cx,cy))
     print('Raio equivalente (m00/pi): %5.3f'%re)
 
     f = open('data/parametros_hu_%s.txt' %galaxies['gal_num'][i_gal], 'w')
-    f.write('#Populacao Rm/re   std I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
+    f.write('#Populacao Rm/re std tm tm_std tp tp_std I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
     f.close()
     arquive = 'data/parametros_hu_%s.txt' %galaxies['gal_num'][i_gal]
+    obj = str(galaxies['gal_num'][i_gal])
 
-    hu.Humoments(arquive,pop1,re,cx,cy,p=1)
-    hu.Humoments(arquive,pop2,re,cx,cy,p=2)
-    hu.Humoments(arquive,pop3,re,cx,cy,p=3)
-    hu.Humoments(arquive,pop4,re,cx,cy,p=4)
+    hu.Humoments(obj,arquive,pop1,re,cx,cy,tm_total,tm_total_std,p=1)
+    hu.Humoments(obj,arquive,pop2,re,cx,cy,tm_total,tm_total_std,p=2)
+    hu.Humoments(obj,arquive,pop3,re,cx,cy,tm_total,tm_total_std,p=3)
+    hu.Humoments(obj,arquive,pop4,re,cx,cy,tm_total,tm_total_std,p=4)
 
     print('OBJETO #: %s' %i_gal)
 

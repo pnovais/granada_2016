@@ -2,8 +2,8 @@ import numpy
 import math
 import pandas as pd
 
-def Humoments(arquive,pop,re,cx,cy,p):
-    pca = pop.copy()
+def Humoments(obj,arquive,pca,re,cx,cy,tm,tm_std,p):
+    #pca = pop.copy()
     pca['raio'] = numpy.sqrt((pca['x'] - cx)**2 + (pca['y'] - cy)**2)
     Rm = pca['raio'].mean()
     SigR = pca['raio'].std()
@@ -122,6 +122,13 @@ def Humoments(arquive,pop,re,cx,cy,p):
 #    df_fof=pd.DataFrame(fof)
 #    df_fof.columns = ['fof']
 #    print(df_fof.describe())
-    file.write('%s %s %s %s %s %s %s %s %s  %s %s %s %s %s %s %s %s %s\n' %(p, Rm_re, SigR_re, I1, I2, I3, I4, I5, I6, I7, a, b, f,
-                tetha, exc, flong, SYM, Conc))
+
+    '''
+    idade media da populacao + desvio padrao
+    '''
+    tp = pca['age'].mean()
+    tp_std = pca['age'].std()
+
+    file.write('%s %s %s %s %s %s %s %s %s %s %s %s %s %s  %s %s %s %s %s %s %s %s %s\n' %(obj,p, Rm_re, SigR_re, tm, tm_std, tp, tp_std,I1, I2, I3, I4, I5,
+                I6, I7, a, b, f, tetha, exc, flong, SYM, Conc))
     return()
