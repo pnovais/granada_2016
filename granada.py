@@ -45,7 +45,7 @@ def get_image(f_sdss):
 
 #abrindo a imagem fits
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-galaxies = pd.read_csv('data/califa_group2.csv')
+galaxies = pd.read_csv('data/califa_group1.csv')
 #galaxies.columns = ['at_flux', 'gal_num']
 colunas = ('x','y','age')
 
@@ -84,10 +84,20 @@ for i_gal in range(len(galaxies)):
 
     #dividindo as populacoes
     compr = len(df2)
+
+    '''
+    delta = (df2['age'].max() - df2['age'].min())/4
+    pop1 = df2.ix[df2.age < df2['age'].min()+delta]
+    pop2 = df2.ix[(df2.age > df2['age'].min()+delta) & (df2.age < df2['age'].min()+2*delta)]
+    pop3 = df2.ix[(df2.age > df2['age'].min()+2*delta) & (df2.age < df2['age'].min()+3*delta)]
+    pop4 = df2.ix[df2.age > df2['age'].min()+3*delta]
+    '''
+
     pop1 = df2.ix[:(compr/4),:]
     pop2 = df2.ix[(compr/4)+1:(compr/2),:]
     pop3 = df2.ix[(compr/2)+1:(3*(compr/4)),:]
     pop4 = df2.ix[(3*compr/4)+1:compr,:]
+
 
     #plotando as populacoes
     f, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, sharex='col', sharey='row')
