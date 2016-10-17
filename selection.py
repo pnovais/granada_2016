@@ -23,7 +23,7 @@ df2 = pd.read_table('Paty_at_flux__yx/mapas.txt', delim_whitespace = True)
 df2.columns = ['at-flux', 'gal_num']
 
 dfm = pd.read_table('data/morphological_types_califa.txt', delim_whitespace = True)
-dfm.columns = ['index', 'gal_num', 'type']
+dfm.columns = ['gal_num', 'type']
 
 n=0
 

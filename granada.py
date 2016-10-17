@@ -51,7 +51,7 @@ def get_image(f_sdss):
 
 #abrindo a imagem fits
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-grupo = 'group1'
+grupo = 'group3'
 galaxies = pd.read_csv('data/%s/califa_%s.csv' %(grupo,grupo))
 #galaxies.columns = ['at_flux', 'gal_num']
 colunas = ('x','y','age')
