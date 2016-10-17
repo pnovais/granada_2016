@@ -1,5 +1,6 @@
 """
-Programa para analise dos mapas de idade do CALIFA, utilizando a pipeline x.x
+Programa para determinacao dos parametros de analise, utilizando os mapas de
+idade do CALIFA (idade estelar ponderada pela luminosidade - pipeline x.x)
 29/09/16
 
 Versao 0.0
@@ -7,6 +8,11 @@ Versao 0.0
 ------------------------
 Versao 0.1
 Com correlacao entre os parametros
+
+-----------------------
+Versao 0.2
+Separacao por tipo morfologico
+(utilizando a rotina selection.py)
 
 """
 
@@ -45,7 +51,8 @@ def get_image(f_sdss):
 
 #abrindo a imagem fits
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-galaxies = pd.read_csv('data/califa_group3.csv')
+grupo = 'group1'
+galaxies = pd.read_csv('data/%s/califa_%s.csv' %(grupo,grupo))
 #galaxies.columns = ['at_flux', 'gal_num']
 colunas = ('x','y','age')
 
@@ -63,7 +70,7 @@ for i_gal in range(len(galaxies)):
     titulo='Galaxy %s ' %galaxies['gal_num'][i_gal]
     plt.title(titulo)
     plt.colorbar()
-    figura = 'figures/galaxy_%s' %galaxies['gal_num'][i_gal]
+    figura = 'figures/%s/galaxy_%s' %(grupo,galaxies['gal_num'][i_gal])
     plt.savefig(figura)
 
     #obtendo os dados da imagem fits
@@ -105,7 +112,7 @@ for i_gal in range(len(galaxies)):
     ax2.scatter(pop2['x'],pop2['y'], color="green")
     ax3.scatter(pop3['x'],pop3['y'], color="goldenrod")
     ax4.scatter(pop4['x'],pop4['y'], color="red")
-    plt.savefig('figures/Distribution_4panel_gal_%s.png' %galaxies['gal_num'][i_gal])
+    plt.savefig('figures/%s/Distribution_4panel_gal_%s.png' %(grupo,galaxies['gal_num'][i_gal]))
 
     plt.figure()
     plt.axis([-10,80,-10,80])
@@ -113,7 +120,7 @@ for i_gal in range(len(galaxies)):
     plt.scatter(pop2['x'],pop2['y'], color="green")
     plt.scatter(pop3['x'],pop3['y'], color="goldenrod")
     plt.scatter(pop4['x'],pop4['y'], color="red")
-    plt.savefig('figures/Distribution_all_gal_%s.png' %galaxies['gal_num'][i_gal])
+    plt.savefig('figures/%s/Distribution_all_gal_%s.png' %(grupo,galaxies['gal_num'][i_gal]))
     #plt.show()
 
     '''
@@ -145,10 +152,10 @@ for i_gal in range(len(galaxies)):
     print('Centroides (Cx,Cy) da imagem: (%d,%d)' %(cx,cy))
     print('Raio equivalente (m00/pi): %5.3f'%re)
 
-    f = open('data/parametros_hu_%s.txt' %galaxies['gal_num'][i_gal], 'w')
+    f = open('data/%s/parametros_hu_%s.txt' %(grupo,galaxies['gal_num'][i_gal]), 'w')
     f.write('#Populacao Rm/re std tm tm_std tp tp_std I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
     f.close()
-    arquive = 'data/parametros_hu_%s.txt' %galaxies['gal_num'][i_gal]
+    arquive = 'data/%s/parametros_hu_%s.txt' %(grupo,galaxies['gal_num'][i_gal])
     obj = str(galaxies['gal_num'][i_gal])
 
     hu.Humoments(obj,arquive,pop1,re,cx,cy,tm_total,tm_total_std,p=1)
