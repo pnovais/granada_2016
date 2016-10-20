@@ -32,6 +32,20 @@ import hu
 __author__ = 'pnovais'
 ini=time.time()
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    PATY = '\033[32m'
+    PINK = '\033[35m'
+    YELLOWs = '\033[33m'
+
+
 #definindo a classe que ira ler as imagens fits
 def get_image(f_sdss):
     img = f_sdss[0].data
@@ -50,7 +64,11 @@ halpha = pd.read_csv('Hamaps/halpha.csv')
 #exit()
 
 #for i_gal in range(len(age)):
-for i_gal in range(0,4):
+for i_gal in range(0,2):
+    print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
+    print(bcolors.FAIL + '-'*33 + 'OBJETO: %s' %age['num_gal'][i_gal] + '-'*33 + bcolors.ENDC)
+    print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
+    plt.close()
     image_age = fits.open('Paty_at_flux__yx/at_flux__yx_%s.fits' %age['num_gal'][i_gal])
     #image_age = fits.open('at_flux__yx_K0127_original.fits')
     img = get_image(image_age)
@@ -76,7 +94,7 @@ for i_gal in range(0,4):
 
     image_mass = fits.open('PatImages/PatImagesMcorSD__yx_%s.fits' %age['num_gal'][i_gal])
     #image_age = fits.open('at_flux__yx_K0127_original.fits')
-    img = get_image(image_age)
+    img = get_image(image_mass)
 
     #obtendo os dados da imagem fits
     df_mass = pd.DataFrame()
@@ -85,9 +103,98 @@ for i_gal in range(0,4):
     table = np.column_stack(( xx.flatten(), yy.flatten(), img.flatten() ))
     temp = pd.DataFrame(table, columns=['x','y','mass'])
     df_mass = pd.concat([df_mass,temp], axis=1)
-    
+
+    df0 = pd.merge(df_age,df_mass)
+
+    #selecionando apenas os dados de idade > 0 e mass > 0
+    df = df0[(df0.age > 0.0) & (df0.mass > 0.0)]
+
+
+    #ordenando os dados pela idade
+    df2 = df.sort_values(by='age')
+    df2 = df2.reset_index()
+    del df2['index']
+
+    #dividindo as populacoes
+    compr = len(df2)
+
+    pop1 = df2.ix[:(compr/4),:]
+    pop2 = df2.ix[(compr/4)+1:(compr/2),:]
+    pop3 = df2.ix[(compr/2)+1:(3*(compr/4)),:]
+    pop4 = df2.ix[(3*compr/4)+1:compr,:]
+
+    #plotando as populacoes
+    f, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, sharex='col', sharey='row')
+    plt.axis([-10,80,-10,80])
+    ax1.scatter(pop1['x'],pop1['y'], color="blue")
+    ax2.scatter(pop2['x'],pop2['y'], color="green")
+    ax3.scatter(pop3['x'],pop3['y'], color="goldenrod")
+    ax4.scatter(pop4['x'],pop4['y'], color="red")
+    plt.savefig('figures2/Distribution_4panel_gal_%s.png' %(age['num_gal'][i_gal]))
+
+    plt.figure()
+    plt.axis([-10,80,-10,80])
+    plt.scatter(pop1['x'],pop1['y'], color="blue")
+    plt.scatter(pop2['x'],pop2['y'], color="green")
+    plt.scatter(pop3['x'],pop3['y'], color="goldenrod")
+    plt.scatter(pop4['x'],pop4['y'], color="red")
+    plt.savefig('figures2/Distribution_all_gal_%s.png' %(age['num_gal'][i_gal]))
+    #plt.show()
+    '''
+    ================================================================================
+    Calculando os momentos invariantes de Hu
+    ================================================================================
+
+    !======================================================
+    !================CENTROIDES DA IMAGEM==================
+    !======================================================
+    !xc = M10/M00
+    !yc = M01/M00
+    !
+    !onde xc e yc sao os centroides da imagem, M10, M01 e
+    !M00 os momentos nao centrais, onde
+    !
+    !Mpq=Somatorio(x^p.y^q)
+    !------------------------------------------------------
+    '''
+
+    m10=df2['x'].sum()
+    m01=df2['y'].sum()
+    cx = int(m10/len(df2))
+    cy = int(m01/len(df2))
+    re = np.sqrt(len(df2)/3.14)
+    tm_total = df2['age'].mean()
+    tm_total_std = df2['age'].std()
+    mass_t = df2.mass.sum()
+    mass_m = df2.mass.mean()
+    mass_m_std = df2.mass.std()
+
+    print(bcolors.PATY + 'Properties' + bcolors.ENDC)
+    print('Idade media galaxia: %5.3f+-%5.3f Gyr' %(tm_total,tm_total_std))
+    print('Densidade de massa total: %5.3f Msun/pc^2' %mass_t)
+    print('Densidade de massa media: %5.3f+-%5.3f Msun/pc^2' %(mass_m,mass_m_std))
+    print('Centroides (Cx,Cy) da imagem: (%d,%d)' %(cx,cy))
+    print('Raio equivalente (m00/pi): %5.3f'%re)
+
+    f = open('data/parametros_hu_%s.txt' %(age['num_gal'][i_gal]), 'w')
+    f.write('#Populacao Rm/re std tm tm_std tp tp_std I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
+    f.close()
+    arquive = 'data/parametros_hu_%s.txt' %(age['num_gal'][i_gal])
+    obj = str(age['num_gal'][i_gal])
+
+    hu.Humoments(obj,arquive,pop1,re,cx,cy,tm_total,tm_total_std,mass_t,mass_m,mass_m_std,p=1)
+    #hu.Humoments(obj,arquive,pop2,re,cx,cy,tm_total,tm_total_std,p=2)
+    #hu.Humoments(obj,arquive,pop3,re,cx,cy,tm_total,tm_total_std,p=3)
+    #hu.Humoments(obj,arquive,pop4,re,cx,cy,tm_total,tm_total_std,p=4)
+
+    df2.to_csv('data/age_massdensity_%s.csv' %age['num_gal'][i_gal], index=False)
+    print(' ')
+    print(len(df2))
+
+
 
 fim = time.time()
 time_proc = fim - ini
 print('')
-print('tempo de processamento: %fs' %time_proc)
+#print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
+print(bcolors.OKBLUE + 'tempo de processamento: %fs' %time_proc + bcolors.ENDC)
