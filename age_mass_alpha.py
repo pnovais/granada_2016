@@ -28,6 +28,7 @@ import matplotlib.mlab as mlab
 import scipy, pylab
 import math
 import hu
+import plots
 
 __author__ = 'pnovais'
 ini=time.time()
@@ -187,6 +188,16 @@ for i_gal in range(0,2):
     print(' ')
 #    print(len(df2))
 
+
+early = pd.read_csv('data/group1/califa_group1.csv' )
+late = pd.read_csv('data/group2/califa_group2.csv' )
+irregular = pd.read_csv('data/group3/califa_group3.csv')
+
+df_e = plots.juncao(early,'group1')
+df_l = plots.juncao(late,'group2')
+df_i = plots.juncao(irregular,'group3')
+
+plots.compare(df_e,df_l,df_i)
 
 
 fim = time.time()
