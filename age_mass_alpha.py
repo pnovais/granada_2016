@@ -54,14 +54,10 @@ def get_image(f_sdss):
 
 
 data_dir = '/home/pnovais/Dropbox/DOUTORADO/granada_2016'
-#grupo = 'group3'
 age = pd.read_csv('Paty_at_flux__yx/age.csv')
 mass = pd.read_csv('PatImages/mass.csv')
 halpha = pd.read_csv('Hamaps/halpha.csv')
 
-#image_age = fits.open('Paty_at_flux__yx/at_flux__yx_K0002.fits')
-
-#exit()
 
 #for i_gal in range(len(age)):
 for i_gal in range(0,2):
@@ -177,19 +173,19 @@ for i_gal in range(0,2):
     print('Raio equivalente (m00/pi): %5.3f'%re)
 
     f = open('data/parametros_hu_%s.txt' %(age['num_gal'][i_gal]), 'w')
-    f.write('#Populacao Rm/re std tm tm_std tp tp_std I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
+    f.write('#Populacao Rm/re std tm tm_std tp tp_std M_t M_p I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
     f.close()
     arquive = 'data/parametros_hu_%s.txt' %(age['num_gal'][i_gal])
     obj = str(age['num_gal'][i_gal])
 
-    hu.Humoments(obj,arquive,pop1,re,cx,cy,tm_total,tm_total_std,mass_t,mass_m,mass_m_std,p=1)
-    #hu.Humoments(obj,arquive,pop2,re,cx,cy,tm_total,tm_total_std,p=2)
-    #hu.Humoments(obj,arquive,pop3,re,cx,cy,tm_total,tm_total_std,p=3)
-    #hu.Humoments(obj,arquive,pop4,re,cx,cy,tm_total,tm_total_std,p=4)
+    hu.Humoments(obj,arquive,pop1,re,cx,cy,tm_total,tm_total_std,mass_t,p=1)
+    hu.Humoments(obj,arquive,pop2,re,cx,cy,tm_total,tm_total_std,mass_t,p=2)
+    hu.Humoments(obj,arquive,pop3,re,cx,cy,tm_total,tm_total_std,mass_t,p=3)
+    hu.Humoments(obj,arquive,pop4,re,cx,cy,tm_total,tm_total_std,mass_t,p=4)
 
     df2.to_csv('data/age_massdensity_%s.csv' %age['num_gal'][i_gal], index=False)
     print(' ')
-    print(len(df2))
+#    print(len(df2))
 
 
 
