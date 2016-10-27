@@ -74,6 +74,7 @@ for i_gal in range(0,2):
     plt.figure(1)
     plt.clf()
     cx = cubehelix.cmap(reverse=True, start=0., rot=-0.5)
+    #plt.axis([-10,80,80,-10])
     imgplot = plt.imshow(100*np.log10(img/255), cmap=cx)
     titulo='Galaxy %s ' %age['num_gal'][i_gal]
     plt.title(titulo)
@@ -122,7 +123,7 @@ for i_gal in range(0,2):
 
     #plotando as populacoes
     f, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, sharex='col', sharey='row')
-    plt.axis([-10,80,-10,80])
+    plt.axis([0,77,0,72])
     ax1.scatter(pop1['x'],pop1['y'], color="blue")
     ax2.scatter(pop2['x'],pop2['y'], color="green")
     ax3.scatter(pop3['x'],pop3['y'], color="goldenrod")
@@ -188,7 +189,7 @@ for i_gal in range(0,2):
     print(' ')
 #    print(len(df2))
 
-
+plt.close()
 early = pd.read_csv('data/group1/califa_group1.csv' )
 late = pd.read_csv('data/group2/califa_group2.csv' )
 irregular = pd.read_csv('data/group3/califa_group3.csv')
@@ -197,7 +198,7 @@ df_e = plots.juncao(early,'group1')
 df_l = plots.juncao(late,'group2')
 df_i = plots.juncao(irregular,'group3')
 
-plots.compare(df_e,df_l,df_i)
+#plots.compare(df_e,df_l,df_i)
 
 
 fim = time.time()
