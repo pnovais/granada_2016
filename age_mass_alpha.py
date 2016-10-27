@@ -60,8 +60,8 @@ mass = pd.read_csv('PatImages/mass.csv')
 halpha = pd.read_csv('Hamaps/halpha.csv')
 
 
-#for i_gal in range(len(age)):
-for i_gal in range(0,2):
+for i_gal in range(len(age)):
+#for i_gal in range(0,2):
     print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
     print(bcolors.FAIL + '-'*33 + 'OBJETO: %s' %age['num_gal'][i_gal] + '-'*33 + bcolors.ENDC)
     print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
@@ -74,11 +74,13 @@ for i_gal in range(0,2):
     plt.figure(1)
     plt.clf()
     cx = cubehelix.cmap(reverse=True, start=0., rot=-0.5)
-    #plt.axis([-10,80,80,-10])
+    plt.axis([0,77,0,72])
+    plt.xlabel('X',fontweight='bold')
+    plt.ylabel('Y',fontweight='bold')
     imgplot = plt.imshow(100*np.log10(img/255), cmap=cx)
     titulo='Galaxy %s ' %age['num_gal'][i_gal]
     plt.title(titulo)
-    plt.colorbar()
+    #plt.colorbar()
     figura = 'figures2/galaxy_%s' %age['num_gal'][i_gal]
     plt.savefig(figura)
 
@@ -131,7 +133,10 @@ for i_gal in range(0,2):
     plt.savefig('figures2/Distribution_4panel_gal_%s.png' %(age['num_gal'][i_gal]))
 
     plt.figure()
-    plt.axis([-10,80,-10,80])
+    plt.axis([0,77,0,72])
+    plt.xlabel('X', fontweight='bold')
+    plt.ylabel('Y', fontweight='bold')
+    plt.title(titulo)
     plt.scatter(pop1['x'],pop1['y'], color="blue")
     plt.scatter(pop2['x'],pop2['y'], color="green")
     plt.scatter(pop3['x'],pop3['y'], color="goldenrod")
