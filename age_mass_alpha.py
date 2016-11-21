@@ -189,6 +189,9 @@ for i_gal in range(len(age)):
     hu.Humoments(obj,arquive,pop2,re,cx,cy,tm_total,tm_total_std,mass_t,p=2)
     hu.Humoments(obj,arquive,pop3,re,cx,cy,tm_total,tm_total_std,mass_t,p=3)
     hu.Humoments(obj,arquive,pop4,re,cx,cy,tm_total,tm_total_std,mass_t,p=4)
+    parc = time.time()
+    time_parc = parc - ini
+    print('tempo parcial: %fs (%d de %d)' %(time_parc,i_gal,len(age)))
 
     df2.to_csv('data/age_massdensity_%s.csv' %age['num_gal'][i_gal], index=False)
     print(' ')

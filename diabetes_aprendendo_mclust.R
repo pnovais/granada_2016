@@ -1,4 +1,5 @@
 install.packages('mclust')
+install.packages('car')
 library(mclust)
 data(diabetes)
 X = diabetes[,-1]

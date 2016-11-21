@@ -1,3 +1,4 @@
+install.packages('mclust')
 library(mclust)
 datas1 = read.csv('data/all_parameters_group1.csv', header = TRUE)
 datas2 = read.csv('data/all_parameters_group2.csv', header = TRUE)
@@ -8,10 +9,11 @@ class = data$X.Populacao
 class
 X = data[,-{1:2}]
 X
-#clPairs(X, class)
+clPairs(X, class)
 
-Y = data[,c(3,7,10)]
-Y
+#Y = data[,c(3,7,10)]
+Y = data[,c(3,7,10,25)]
+
 jpeg('graph_trending.jpg')
 clPairs(Y,class)
 dev.off()
@@ -43,10 +45,15 @@ LRT = mclustBootstrapLRT(Y, modelName = "VVV")
 LRT
 
 
+
 hu = data[,c(11,12,13,14,15,16,17)]
 jpeg('graph_trending_hu.jpg')
 clPairs(hu,class)
 dev.off()
 
-
-
+BIC = mclustBIC(hu)
+mod1 = Mclust(hu, x = BIC)
+summary(mod1, parameters = TRUE)
+png(height=1200, width=1200, pointsize=25, file="cluster_hu.png")
+plot(mod1, what = "classification")
+dev.off()
