@@ -61,7 +61,7 @@ halpha = pd.read_csv('Hamaps/halpha.csv')
 
 
 #for i_gal in range(len(age)):
-for i_gal in range(0,2):
+for i_gal in range(0,3):
     print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
     print(bcolors.FAIL + '-'*33 + 'OBJETO: %s' %age['num_gal'][i_gal] + '-'*33 + bcolors.ENDC)
     print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
