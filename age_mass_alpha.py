@@ -3,6 +3,8 @@ Programa criado para gerar os dados, pixel a pixel, para as galaxias do CALIFA:
 -Idade estelar ponderada pela luminosidade
 -Densidade de massa
 -Halpha
+
+25/nov: adicionando os parametros globais
 '''
 
 #!/usr/bin/python
@@ -59,9 +61,11 @@ age = pd.read_csv('Paty_at_flux__yx/age.csv')
 mass = pd.read_csv('PatImages/mass.csv')
 halpha = pd.read_csv('Hamaps/halpha.csv')
 
+globais = pd.read_csv('data/califa_master_list_rgb_2012.csv')
+
 
 #for i_gal in range(len(age)):
-for i_gal in range(0,3):
+for i_gal in range(0,2):
     print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
     print(bcolors.FAIL + '-'*33 + 'OBJETO: %s' %age['num_gal'][i_gal] + '-'*33 + bcolors.ENDC)
     print(bcolors.FAIL +'-'*79+ bcolors.ENDC)
@@ -180,7 +184,7 @@ for i_gal in range(0,3):
     print('Raio equivalente (m00/pi): %5.3f'%re)
 
     f = open('data/parametros_hu_%s.txt' %(age['num_gal'][i_gal]), 'w')
-    f.write('#Populacao Rm/re std tm tm_std tp tp_std M_t M_p I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
+    f.write('obj  #Populacao Rm/re std tm tm_std tp tp_std M_t M_p I1  I2  I3  I4  I5  I6  I7  a   b   f=a+b/2 tetha   Exc     flong   Sim Conc\n')
     f.close()
     arquive = 'data/parametros_hu_%s.txt' %(age['num_gal'][i_gal])
     obj = str(age['num_gal'][i_gal])
