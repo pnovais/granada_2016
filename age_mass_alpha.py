@@ -63,6 +63,39 @@ halpha = pd.read_csv('Hamaps/halpha.csv')
 
 globais = pd.read_csv('data/califa_master_list_rgb_2012.csv')
 
+#selecionando os parametros globais de interesse, fazendo um match entre as tabelas
+
+pg = pd.DataFrame()
+k_num = []
+d_mpc = []
+Mr = []
+ur = []
+veldisp = []
+re = []
+r90 = []
+r20 = []
+
+for i in range(len(age)):
+    for j in range(len(globais)):
+        if (globais['#CALIFA_ID'][j] == age['num_gal'][i]):
+            k_num.append(globais['#CALIFA_ID'][j])
+            d_mpc.append(globais['d_Mpc'][j])
+            Mr.append(globais['Mr'][j])
+            ur.append(globais['u-r'][j])
+            veldisp.append(globais['velDisp'][j])
+            re.append(globais['re'][j])
+            r90.append(globais['r90'][j])
+            r20.append(globais['r20'][j])
+
+pg['num_gal'] = k_num
+pg['d_mpc'] = d_mpc
+pg['Mr'] = Mr
+pg['ur'] = ur
+pg['veldisp'] = veldisp
+pg['re'] = re
+pg['r90'] = r90
+pg['r20'] = r20
+
 
 #for i_gal in range(len(age)):
 for i_gal in range(0,2):
