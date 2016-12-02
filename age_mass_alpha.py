@@ -1,3 +1,4 @@
+#code = utf-8
 '''
 Programa criado para gerar os dados, pixel a pixel, para as galaxias do CALIFA:
 -Idade estelar ponderada pela luminosidade
@@ -64,7 +65,7 @@ halpha = pd.read_csv('Hamaps/halpha.csv')
 globais = pd.read_csv('data/califa_master_list_rgb_2012.csv')
 
 #selecionando os parametros globais de interesse, fazendo um match entre as tabelas
-
+#pg = parametros globais
 pg = pd.DataFrame()
 k_num = []
 d_mpc = []
@@ -243,6 +244,7 @@ df_e = plots.juncao(early,'group1')
 df_l = plots.juncao(late,'group2')
 df_i = plots.juncao(irregular,'group3')
 
+plt.close()
 #plots.compare(df_e,df_l,df_i)
 
 
